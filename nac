@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+import sys
+import random
+import pprint
+
+
+class Board:
+    positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    used = {}
+
+    def move(self, player, pos):
+        self.used[int(pos)] = int(player)
+        print("Moving player " + str(player) + " to " + str(pos))
+
+    def available(self):
+        free = []
+        for pos in self.positions:
+            if pos not in self.used.keys():
+                free.append(pos)
+
+        return free
+
+
+class AIPlayer:
+
+    def prompt(self, board: Board):
+        return random.choice(board.available())
+
+
+class CliPlayer:
+
+    def prompt(self, board: Board):
+        pos = "0"
+        options = board.available()
+        while int(pos) not in options:
+            pos = input("Choose your move (" + ",".join(map(str, options)) + ")")
+
+        return pos
+
+
+class UI:
+
+    playerShapes = {
+        1: 'X',
+        2: 'O'
+    },
+
+    players = {}
+
+    def __init__(self, board: Board):
+        self.board = board
+        self.players[1] = CliPlayer()
+        self.players[2] = AIPlayer()
+
+    def run(self):
+        self.draw()
+        # @todo Randomly choose first player
+        player = 1
+
+        while self.board.available():
+
+            # Toggle to the next player
+            if player == 1:
+                player = 2
+            elif player == 2:
+                player = 1
+
+            pos = self.players[player].prompt(self.board)
+            self.board.move(player, pos)
+            self.draw()
+
+    def draw(self):
+
+        pprint.pprint(self.board.used)
+
+        for pos in self.board.positions:
+            if pos in self.board.used.keys():
+                player = self.board.used[pos]
+                symbol = str(player)
+            else:
+                symbol = " "
+
+            sys.stdout.write(symbol + ("\n" if (pos+1) % 3 == 1 else "|"))
+
+        sys.stdout.write("\n")
+
+
+# Run it
+ui = UI(Board())
+ui.run()
