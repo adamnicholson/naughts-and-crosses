@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import random
+import copy
 import pprint
 
 
@@ -52,19 +53,19 @@ class Board:
 
 
 class Player:
-    def prompt(self, board: Board):
+    def prompt(self, my_player_number: int, board: Board):
         raise(NotImplementedError())
 
 
 class AIPlayer(Player):
 
-    def prompt(self, board: Board):
+    def prompt(self, my_player_number: int, board: Board):
         return random.choice(board.available())
 
 
 class CliPlayer(Player):
 
-    def prompt(self, board: Board):
+    def prompt(self, my_player_number: int, board: Board):
         pos = "0"
         options = board.available()
         while int(pos) not in options:
@@ -100,7 +101,7 @@ class UI:
                 print("Player 1 turn")
                 player = 1
 
-            pos = self.players[player].prompt(self.board)
+            pos = self.players[player].prompt(player, self.board)
             self.board.move(player, pos)
             self.draw()
 
