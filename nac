@@ -10,7 +10,6 @@ class Board:
 
     def move(self, player, pos):
         self.used[int(pos)] = int(player)
-        print("Moving player " + str(player) + " to " + str(pos))
 
     def available(self):
         free = []
@@ -53,16 +52,18 @@ class UI:
         self.players[2] = AIPlayer()
 
     def run(self):
-        self.draw()
         # @todo Randomly choose first player
-        player = 1
+        print("Welcome to naughts and crosses. You are crosses")
+        player = 2
 
         while self.board.available():
 
             # Toggle to the next player
             if player == 1:
+                print("AI turn")
                 player = 2
             elif player == 2:
+                print("Your turn")
                 player = 1
 
             pos = self.players[player].prompt(self.board)
@@ -70,8 +71,6 @@ class UI:
             self.draw()
 
     def draw(self):
-
-        pprint.pprint(self.board.used)
 
         for pos in self.board.positions:
             if pos in self.board.used.keys():
