@@ -51,13 +51,18 @@ class Board:
         return self.winner() is not None
 
 
-class AIPlayer:
+class Player:
+    def prompt(self, board: Board):
+        raise(NotImplementedError())
+
+
+class AIPlayer(Player):
 
     def prompt(self, board: Board):
         return random.choice(board.available())
 
 
-class CliPlayer:
+class CliPlayer(Player):
 
     def prompt(self, board: Board):
         pos = "0"
@@ -72,7 +77,7 @@ class UI:
 
     players = {}
 
-    def __init__(self, board: Board, player1, player2):
+    def __init__(self, board: Board, player1: Player, player2: Player):
         self.playerShapes = {
             1: 'X',
             2: 'O'
