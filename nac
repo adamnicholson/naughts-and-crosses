@@ -70,14 +70,13 @@ class CliPlayer:
 
 class UI:
 
-    playerShapes = {
-        1: 'X',
-        2: 'O'
-    },
-
     players = {}
 
     def __init__(self, board: Board):
+        self.playerShapes = {
+            1: 'X',
+            2: 'O'
+        }
         self.board = board
         self.players[1] = CliPlayer()
         self.players[2] = AIPlayer()
@@ -88,11 +87,6 @@ class UI:
         player = 2
 
         while self.board.available():
-
-            # Check for victory condition
-            if self.board.won():
-                print("The game has been won by " + self.board.winner())
-                exit()
 
             # Toggle to the next player
             if player == 1:
@@ -106,14 +100,23 @@ class UI:
             self.board.move(player, pos)
             self.draw()
 
+            # Check for victory condition
+            if self.board.won():
+                winner = self.board.winner()
+                print("The game has been won by " + self.symbol(winner))
+                exit()
+
         print("The game was a draw")
+
+    def symbol(self, player):
+        return self.playerShapes.get(player)
 
     def draw(self):
 
         for pos in self.board.positions:
             if pos in self.board.used.keys():
                 player = self.board.used[pos]
-                symbol = str(player)
+                symbol = self.symbol(player)
             else:
                 symbol = " "
 
