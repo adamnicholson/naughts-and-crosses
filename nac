@@ -72,14 +72,14 @@ class UI:
 
     players = {}
 
-    def __init__(self, board: Board):
+    def __init__(self, board: Board, player1, player2):
         self.playerShapes = {
             1: 'X',
             2: 'O'
         }
         self.board = board
-        self.players[1] = CliPlayer()
-        self.players[2] = AIPlayer()
+        self.players[1] = player1
+        self.players[2] = player2
 
     def run(self):
         # @todo Randomly choose first player
@@ -90,10 +90,10 @@ class UI:
 
             # Toggle to the next player
             if player == 1:
-                print("AI turn")
+                print("Player 2 turn")
                 player = 2
             elif player == 2:
-                print("Your turn")
+                print("Player 1 turn")
                 player = 1
 
             pos = self.players[player].prompt(self.board)
@@ -126,5 +126,6 @@ class UI:
 
 
 # Run it
-ui = UI(Board())
+#ui = UI(Board(), CliPlayer(), AIPlayer())
+ui = UI(Board(), AIPlayer(), AIPlayer())
 ui.run()
