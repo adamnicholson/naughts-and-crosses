@@ -82,8 +82,7 @@ class UI:
         self.players[2] = player2
 
     def run(self):
-        # @todo Randomly choose first player
-        print("Welcome to naughts and crosses. You are crosses")
+        print("Welcome to naughts and crosses. Player 1 is crosses")
         player = 2
 
         while self.board.available():
@@ -126,6 +125,6 @@ class UI:
 
 
 # Run it
-#ui = UI(Board(), CliPlayer(), AIPlayer())
-ui = UI(Board(), AIPlayer(), AIPlayer())
+ui = UI(Board(), CliPlayer(), AIPlayer())
+# ui = UI(Board(), AIPlayer(), AIPlayer())
 ui.run()
