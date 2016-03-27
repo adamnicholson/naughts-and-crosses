@@ -7,6 +7,16 @@ import pprint
 class Board:
     positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     used = {}
+    winners = [
+        [1,2,3],
+        [4,5,6],
+        [7,8,9],
+        [1,4,7],
+        [2,5,8],
+        [3,6,9],
+        [1,5,9],
+        [3,5,7],
+    ]
 
     def move(self, player, pos):
         self.used[int(pos)] = int(player)
@@ -18,6 +28,27 @@ class Board:
                 free.append(pos)
 
         return free
+
+    def winner(self):
+        for player in [1,2]:
+            owned = []
+            for pos in self.used.keys():
+                if self.used[pos] == player:
+                    owned.append(pos)
+
+            for combination in self.winners:
+                matched = 0
+                for pos in combination:
+                    if pos in owned:
+                        matched += 1
+
+                if matched == 3:
+                    return player
+
+        return None
+
+    def won(self):
+        return self.winner() is not None
 
 
 class AIPlayer:
@@ -58,6 +89,11 @@ class UI:
 
         while self.board.available():
 
+            # Check for victory condition
+            if self.board.won():
+                print("The game has been won by " + self.board.winner())
+                exit()
+
             # Toggle to the next player
             if player == 1:
                 print("AI turn")
@@ -69,6 +105,8 @@ class UI:
             pos = self.players[player].prompt(self.board)
             self.board.move(player, pos)
             self.draw()
+
+        print("The game was a draw")
 
     def draw(self):
 
