@@ -31,7 +31,7 @@ class UI:
                 print("Player 1 turn")
                 player = 1
 
-            pos = self.players[player].prompt(player, self.board)
+            pos = self.players[player].prompt(self.board)
             self.board.move(player, pos)
             self.draw()
 

@@ -10,11 +10,11 @@ class AIPlayer(Player):
     def __init__(self, my_player_number: int):
         self.my_player_number = my_player_number
 
-    def prompt(self, my_player_number: int, board: Board):
+    def prompt(self, board: Board):
 
         for pos in board.available():
             branch = copy.deepcopy(board)
-            branch.move(my_player_number, pos)
+            branch.move(self.my_player_number, pos)
             if branch.won():
                 return pos
 

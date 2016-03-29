@@ -18,7 +18,7 @@ class TestAiPlayer(unittest.TestCase):
         for test in states:
             board = Board()
             board.used = test[0]
-            self.assertEqual(test[1], ai.prompt(1, board))
+            self.assertEqual(test[1], ai.prompt(board))
 
 
 if __name__ == '__main__':
