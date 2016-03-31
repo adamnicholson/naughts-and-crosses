@@ -8,9 +8,13 @@ class CliPlayer(Player):
         self.my_player_number = my_player_number
 
     def prompt(self, board: Board):
-        pos = "0"
+        pos = 0
         options = board.available()
-        while int(pos) not in options:
-            pos = input("Choose your move (" + ",".join(map(str, options)) + ")")
+        while pos not in options:
+            pos = input("Choose your move. Remaining options are " + ",".join(map(str, options)) + ": ")
+            try:
+                pos = int(pos)
+            except ValueError:
+                pos = 0
 
         return pos
