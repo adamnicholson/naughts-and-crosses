@@ -45,5 +45,29 @@ class Board:
 
         return None
 
+    def iswinner(self, player: int):
+        if self.won() and self.winner() == player:
+            return True
+        else:
+            return False
+
     def won(self):
         return self.winner() is not None
+
+    # The game is considered "over" if somebody has won, or there are no moves left
+    def over(self):
+        return self.winner() or not self.available()
+
+    def whoseTurn(self):
+        player1turns = 0
+        player2turns = 0
+        for pos in self.used.keys():
+            if self.used[pos] == 1:
+                player1turns += 1
+            else:
+                player2turns += 1
+
+        return 2 if player2turns < player1turns else 1
+
+    def isTurn(self, player: int):
+        return self.whoseTurn() == player

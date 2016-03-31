@@ -22,6 +22,16 @@ class TestBoard(unittest.TestCase):
         board.move(2, 7)
         self.assertEqual([3,4,5,8,9], board.available())
 
+    def test_board_knows_whose_turn_it_is(self):
+        board = Board()
+        self.assertEqual(1, board.whoseTurn())
+        self.assertTrue(board.isTurn(1))
+        board.move(1, 5)
+        self.assertEqual(2, board.whoseTurn())
+        self.assertTrue(board.isTurn(2))
+        board.move(2, 2)
+        self.assertEqual(1, board.whoseTurn())
+        self.assertTrue(board.isTurn(1))
 
 if __name__ == '__main__':
     unittest.main()
